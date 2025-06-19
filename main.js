@@ -1,3 +1,4 @@
+// main.js
 import { runIntroScene } from './scenes/intro.js';
 import { runDeliveryScene } from './scenes/delivery1.js';
 
@@ -11,9 +12,13 @@ function changeScene(newSceneFunc) {
     currentScene.cleanup();
   }
   currentScene = newSceneFunc(ctx, () => {
-    // Buraya bir sonraki sahneyi bağla
-    if (newSceneFunc === runIntroScene) changeScene(runDeliveryScene);
-    else console.log("Oyun bitti veya sonraki sahne yok.");
+    // Bir sonraki sahneye geçiş
+    if (newSceneFunc === runIntroScene) {
+      changeScene(runDeliveryScene);
+    } else {
+      console.log('Oyun bitti veya sonraki sahne yok.');
+      // İstersen burada oyunu bitir veya menüye dön
+    }
   });
 }
 
