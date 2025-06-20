@@ -1,26 +1,26 @@
 export class NPC {
-  constructor(name, x, y, width = 40, height = 60, color = '#f00') {
+  constructor(name, x, y, dialogue, spritePath) {
     this.name = name;
     this.x = x;
     this.y = y;
-    this.width = width;
-    this.height = height;
-    this.color = color;
+    this.width = 27;
+    this.height = 31;
+    this.dialogue = dialogue;
+    this.sprite = new Image();
+    this.sprite.src = spritePath;
     this.delivered = false;
   }
-
   draw(ctx) {
-    ctx.fillStyle = this.delivered ? '#0a0' : this.color;
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx.globalAlpha = this.delivered ? 0.5 : 1.0;
+    ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height);
+    ctx.globalAlpha = 1.0;
     ctx.fillStyle = '#fff';
-    ctx.font = '16px monospace';
+    ctx.font = '12px monospace';
     ctx.fillText(this.name, this.x, this.y - 5);
   }
-
   isNear(player) {
-    const dx = (this.x + this.width / 2) - (player.x + player.width / 2);
-    const dy = (this.y + this.height / 2) - (player.y + player.height / 2);
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    return distance < 50; // Etkileşim mesafesi
+    const dx = this.x - player.x;
+    const dy = this.y - player.y;
+    return Math.sqrt(dx * dx + dy * dy) < 40;
   }
 }
