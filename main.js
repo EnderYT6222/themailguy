@@ -7,12 +7,13 @@ const ctx = canvas.getContext('2d');
 const dialogBox = document.getElementById('dialog-box');
 
 const background = new Image();
-background.src = './root/background/town.png';
+background.src = './background/town.png';  // background klasöründe town.png varmış gibi
 
-const player = new Player(100, 100, './root/sprite/player/postman.png');
+const player = new Player(100, 100, './sprite/postman.png'); // sprite klasöründe postman.png
+
 const npcs = [
-  new NPC('Michael', 600, 150, "Hey... Thanks for the letter. I remember you... from before.", './root/sprite/npc/michael.png'),
-  new NPC('Boss', 200, 300, "You again? Don’t screw this up.", './root/sprite/npc/boss.png')
+  new NPC('Michael', 600, 150, "Hey... Thanks for the letter. I remember you... from before.", './sprite/michael.png'),
+  new NPC('Boss', 200, 300, "You again? Don’t screw this up.", './sprite/boss.png')
 ];
 
 let currentDeliveryIndex = 0;
@@ -57,7 +58,12 @@ function update() {
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+  if (background.complete && background.naturalWidth !== 0) {
+    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+  } else {
+    ctx.fillStyle = '#222';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
   npcs.forEach(npc => npc.draw(ctx));
   player.draw(ctx);
   Dialog.draw();
